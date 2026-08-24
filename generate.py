@@ -21,7 +21,8 @@ What this does for you:
   • Retries when the service says you're going too fast.
   • Returns a readable message when the model can't be reached, instead of a
     stack trace. Unit 4 Milestone 2 has you trigger exactly that on purpose.
-  • Counts your calls, so quota is a number you can see.
+  • Counts your calls and the tokens they used, so quota — and cost — are
+    numbers you can see rather than numbers you multiply off a pricing page.
 
 The model name and the temperature live in config.py, not here.
 """
@@ -38,6 +39,8 @@ import config
 _call_times: list[float] = []
 _session_calls = 0
 _cache_hits = 0
+_prompt_tokens = 0
+_output_tokens = 0
 _client = None
 _budget_warned = False
 
@@ -137,14 +140,62 @@ def _check_budget() -> None:
 
 def usage() -> str:
     """One line on what this session has spent. Printed by app.py on exit."""
+    tokens = ""
+    if _prompt_tokens or _output_tokens:
+        tokens = (
+            f", {_prompt_tokens} prompt + {_output_tokens} output tokens"
+        )
     return (
         f"{_session_calls} model calls this session"
         f"{f', {_cache_hits} served from cache' if _cache_hits else ''}"
+        f"{tokens}"
     )
 
 
 def call_count() -> int:
     return _session_calls
+
+
+def token_counts() -> dict:
+    """
+    What this session actually spent, in tokens, as reported by the service.
+
+    Here's why this exists: a number off the pricing page is an estimate of
+    what a run like yours might cost. This is what your run did cost. When you
+    write down the cost of one agent run, take it from here.
+
+    Cached answers cost nothing and so add nothing — if you want the real
+    per-run numbers, run with the cache off.
+    """
+    return {
+        "prompt": _prompt_tokens,
+        "output": _output_tokens,
+        "total": _prompt_tokens + _output_tokens,
+    }
+
+
+def _record_tokens(response) -> None:
+    """
+    Add one response's token counts to the session total.
+
+    The service reports them on `response.usage_metadata`. It is allowed to
+    report nothing, or half of it — and a missing count is never a good enough
+    reason to kill a run that already succeeded, so anything unexpected here is
+    dropped rather than raised.
+    """
+    global _prompt_tokens, _output_tokens
+    try:
+        meta = getattr(response, "usage_metadata", None)
+        if meta is None:
+            return
+        prompt = getattr(meta, "prompt_token_count", None)
+        output = getattr(meta, "candidates_token_count", None)
+        if isinstance(prompt, int):
+            _prompt_tokens += prompt
+        if isinstance(output, int):
+            _output_tokens += output
+    except Exception:  # noqa: BLE001 — counting must never break a working call
+        pass
 
 
 # ─── The call ────────────────────────────────────────────────────────────────
@@ -262,6 +313,7 @@ def generate(
             }
 
             response = client.models.generate_content(**kwargs)
+            _record_tokens(response)
             text = (response.text or "").strip()
 
             if use_cache:

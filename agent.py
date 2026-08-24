@@ -68,11 +68,15 @@ def run_agent(query: str, wardrobe: dict) -> dict:
 
       1. Start a session with new_session().
 
-      2. Parse the query into a description, a size, and a max_price. Regex,
+      2. Count the times round the loop, and call trace.check_iterations(count)
+         on each one before you go again. It raises when the count passes
+         MAX_ITERATIONS in config.py — see trace.py.
+
+      3. Parse the query into a description, a size, and a max_price. Regex,
          string splitting, or asking the model are all fine — say which you
          chose in your README. Put the result in session["parsed"].
 
-      3. Call search_listings() with what you parsed.
+      4. Call search_listings() with what you parsed.
          Put the results in session["search_results"].
 
          ⚠️ THIS IS THE BRANCH. If nothing came back:
@@ -81,16 +85,16 @@ def run_agent(query: str, wardrobe: dict) -> dict:
               - return the session
               - do NOT call suggest_outfit with nothing
 
-      4. Choose an item — the first result is fine. Put it in
+      5. Choose an item — the first result is fine. Put it in
          session["selected_item"].
 
-      5. Call suggest_outfit() with the selected item and the wardrobe.
+      6. Call suggest_outfit() with the selected item and the wardrobe.
          Put the result in session["outfit_suggestion"].
 
-      6. Call create_fit_card() with the outfit and the item.
+      7. Call create_fit_card() with the outfit and the item.
          Put the result in session["fit_card"].
 
-      7. Return the session.
+      8. Return the session.
 
     ─────────────────────────────────────────────────────────────────────────
     IN UNIT 4 you come back and add two things:

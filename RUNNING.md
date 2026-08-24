@@ -82,6 +82,7 @@ does nothing.
 | `python mcp_server.py` | Starts your MCP server — **unit 4** |
 | `python mcp_client.py` | Asks the server what it offers — **unit 4** |
 | `python run_eval.py --label before` | Runs every scenario five times and writes the run log — **unit 4** |
+| `python serve.py` | Serves the agent over HTTP instead of exiting — **week 9** |
 
 Useful flags on `ask`:
 
@@ -118,6 +119,42 @@ Useful flags on `ask`:
 
 ---
 
+## Running it somewhere else — **week 9**
+
+Everything above exits when the command finishes. A host has nothing to keep
+running, so before you can deploy this you need something that stays up.
+`serve.py` is that: the same `run_agent()`, behind two HTTP routes.
+
+On your machine:
+
+```bash
+python serve.py
+curl -X POST http://localhost:5000/ask \
+  -H 'Content-Type: application/json' \
+  -d '{"query": "vintage graphic tee under $30"}'
+```
+
+On a host, the start command is:
+
+```bash
+gunicorn serve:app
+```
+
+| Thing | What it means |
+|---|---|
+| `PORT` | The host tells your app which port to listen on by setting this. Both `serve.py` and `gunicorn` read it, and `serve.py` falls back to `5000` on your machine. Don't hard-code a port |
+| `POST /ask` | `{"query": "...", "wardrobe": {...}}` — wardrobe optional. Returns the session dict, `error` and all |
+| `GET /health` | Says `ok` if the app is awake |
+| It answers one request at a time | On purpose. A second request waits for the first to finish, and prints `[serve] another request is still running` while it waits. An MCP tool call starts a whole second Python process, and the free tier's 512 MB has no room for two of those at once — and `generate.py`'s rate-limit counting assumes one caller. The reasoning is written out in `serve.py` |
+| `gunicorn serve:app`, exactly | Not `-k gevent`, not `-k eventlet`, not wrapped for uvicorn. `mcp_client.call_tool` uses `asyncio.run()`, which won't start inside a running event loop, so an async worker breaks **every** MCP call — and only once you've deployed it |
+| The first request is slow | The free tier puts your app to sleep after about fifteen minutes of nothing. The next request wakes it up and waits for it — around a minute. Not a bug, and worth knowing before you demo it |
+
+`serve.py` ships with **no logging and no timing in it**, on purpose. You add
+that yourself in the follow-along, before you deploy — instrumenting first is
+the point of the session.
+
+---
+
 ## Where everything lives
 
 | File | What it does |
@@ -128,6 +165,7 @@ Useful flags on `ask`:
 | `generate.py` | The only thing that calls out to a service. Handles pacing and quota |
 | `trace.py` | The trace helper, and the loop's stop condition |
 | `app.py` | The command line |
+| `serve.py` | The same agent over HTTP, for deploying — **week 9** |
 | `mcp_server.py` | Your MCP server — **unit 4, you register the tool** |
 | `mcp_client.py` | Calling an MCP tool from your agent. Given to you |
 | `scenarios.py` | What your test runs. **You fill this in** |
@@ -183,6 +221,7 @@ is the most common architectural failure in production agents.
 | `No GEMINI_API_KEY found` | No `.env`, or the key wasn't pasted in. On Windows check it didn't save as `.env.txt` |
 | A message saying the model couldn't be reached | Usually a bad key. This is also **exactly what unit 4 Milestone 2 asks you to trigger on purpose** |
 | `[rate limit] ... Waiting 34s` | Working as intended. Leave it |
+| `[serve] another request is still running` | Also working as intended. `serve.py` answers one request at a time; yours is queued behind one that's mid-run |
 | `QuotaGuard: This session has made 300 requests` | A loop isn't ending. Find it before raising the budget |
 | `The loop ran 11 times, past MAX_ITERATIONS` | Same thing, caught earlier |
 | `The server doesn't offer a tool called '...'` | Nothing registered in `mcp_server.py` yet, or the name doesn't match |

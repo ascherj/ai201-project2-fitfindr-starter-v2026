@@ -30,7 +30,7 @@ MODEL = os.getenv("AI201_MODEL", "gemini-3.5-flash-lite")
 
 MIN_PYTHON = (3, 11)
 MAX_PYTHON = (3, 14)  # exclusive — 3.14 breaks the pinned stack
-MIN_DISK_GB = 5
+MIN_DISK_GB = 2
 MIN_RAM_GB = 4
 
 # Distribution name on PyPI -> module name you actually import.
@@ -170,7 +170,7 @@ def check_machine():
     if free_gb < MIN_DISK_GB:
         report("FAIL", "Free disk space",
                f"{free_gb:.1f} GB free, need about {MIN_DISK_GB} GB. "
-               f"The embedding model and its cache are most of it.")
+               f"Room for the virtual environment and your results.")
     else:
         report("PASS", "Free disk space", f"{free_gb:.1f} GB")
 

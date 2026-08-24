@@ -20,6 +20,7 @@ That last line is what your loop branches on. "Returns a list" earns nothing —
 the description has to say what is *in* the list.
 """
 
+import config  # noqa: F401 — you'll use this in search_listings
 from generate import generate
 from utils.data_loader import load_listings
 
@@ -71,7 +72,8 @@ def search_listings(
         2. Filter by max_price and by size, when each is provided.
         3. Score what's left by keyword overlap with `description`.
         4. Drop anything scoring zero.
-        5. Sort by score, highest first, and return the listing dicts.
+        5. Sort by score, highest first, and return the listing dicts —
+           at most config.SEARCH_RESULT_LIMIT of them.
 
     Test it from a terminal before you move on:
         python -c "from tools import search_listings; print(search_listings('graphic tee', max_price=30))"
