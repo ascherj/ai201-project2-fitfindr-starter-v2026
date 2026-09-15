@@ -82,7 +82,7 @@ does nothing.
 | `python mcp_server.py` | Starts your MCP server — **unit 4** |
 | `python mcp_client.py` | Asks the server what it offers — **unit 4** |
 | `python run_eval.py --label before` | Runs every scenario five times and writes the run log — **unit 4** |
-| `python serve.py` | Serves the agent over HTTP instead of exiting — **week 9** |
+| `python serve.py` | Serves the agent over HTTP instead of exiting — **unit 9** |
 
 Useful flags on `ask`:
 
@@ -119,7 +119,7 @@ Useful flags on `ask`:
 
 ---
 
-## Running it somewhere else — **week 9**
+## Running it somewhere else — **unit 9**
 
 Everything above exits when the command finishes. A host has nothing to keep
 running, so before you can deploy this you need something that stays up.
@@ -165,7 +165,7 @@ the point of the session.
 | `generate.py` | The only thing that calls out to a service. Handles pacing and quota |
 | `trace.py` | The trace helper, and the loop's stop condition |
 | `app.py` | The command line |
-| `serve.py` | The same agent over HTTP, for deploying — **week 9** |
+| `serve.py` | The same agent over HTTP, for deploying — **unit 9** |
 | `mcp_server.py` | Your MCP server — **unit 4, you register the tool** |
 | `mcp_client.py` | Calling an MCP tool from your agent. Given to you |
 | `scenarios.py` | What your test runs. **You fill this in** |
@@ -207,7 +207,7 @@ to back while debugging can cross the per-minute limit.
   ending — look for that before raising the number.
 - **It counts your calls** and prints the total when you exit.
 
-`config.MAX_ITERATIONS` is the loop's own stop condition. Your loop this week
+`config.MAX_ITERATIONS` is the loop's own stop condition. Your loop this unit
 is short enough that you may never hit it. Keep it — a missing stop condition
 is the most common architectural failure in production agents.
 
@@ -239,10 +239,10 @@ error, what you ran, and what you expected.
 
 ## A note on committing
 
-At least four commits in unit 3, at least four more in unit 4. Your commit
+At least four new commits in unit 3, at least four more in unit 4. Your commit
 history is what shows your criteria existed before your results did.
 
 **Do not delete and recreate this repository.** You submit the same URL both
-weeks.
+units.
 
 `results/` is deliberately **not** in `.gitignore`.

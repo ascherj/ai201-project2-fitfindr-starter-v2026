@@ -32,7 +32,7 @@
 
      Everything is pasted as TEXT. No screenshots, no images, no video links.
      A typed block of output gets full credit; a picture of the same output
-     gets none, because the grader can't read it.
+     gets none.
      ───────────────────────────────────────────────────────────────────────── -->
 
 <!-- ═══════════════════════ UNIT 3 — THE BUILD ═══════════════════════ -->
@@ -306,7 +306,7 @@ full. -->
            return value, and the empty case
        [ ] Planning Loop names the branch rule and agent.py::run_agent
        [ ] Sample Run: one full query plus the three per-tool tests, as text
-       [ ] At least four commits
+       [ ] At least four new commits
        [ ] Repository URL submitted — WRITE IT DOWN, you submit the same one
            next week
 
