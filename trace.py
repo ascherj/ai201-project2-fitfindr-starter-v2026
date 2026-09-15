@@ -95,7 +95,7 @@ def check_iterations(count: int) -> None:
     """
     Stop condition. Raise if the loop has gone round too many times.
 
-    Your loop this week is short enough that you may never hit this. Keep the
+    Your loop this unit is short enough that you may never hit this. Keep the
     call anyway — a missing stop condition is the most common architectural
     failure in production agents, and the habit is the point.
     """

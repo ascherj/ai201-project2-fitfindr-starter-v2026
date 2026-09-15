@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 """
-FitFindr over HTTP. ← WEEK 9
+FitFindr over HTTP. ← UNIT 9
 
     python serve.py                       run it on your machine
     gunicorn serve:app                    run it the way a host runs it
@@ -28,7 +28,7 @@ note above `_one_at_a_time` below — it also decides which gunicorn worker you
 can use.
 
 ⚠️ There is deliberately NO logging, NO timing and NO request counting in this
-file. That is week 9's follow-along: you instrument this yourself, first, and
+file. That is unit 9's follow-along: you instrument this yourself, first, and
 then deploy it. A structured log you were handed teaches you nothing about
 what belongs in one — and the timing field is the one everybody skips.
 """

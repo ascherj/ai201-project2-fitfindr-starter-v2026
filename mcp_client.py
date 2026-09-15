@@ -23,7 +23,7 @@ usually it means your tool was returning something you hadn't noticed.
 
 Every call starts the server, asks, and stops it again. That's slower than
 holding a connection open and it is much easier to reason about, which is the
-right trade for one week.
+right trade for one unit.
 """
 
 import asyncio

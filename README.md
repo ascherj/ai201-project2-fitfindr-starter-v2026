@@ -194,7 +194,7 @@ that produced it:
 
 ## Verdicts and Diagnoses
 
-<!-- MET or MISSED per criterion against LAST WEEK's target, plus a sentence on
+<!-- MET or MISSED per criterion against LAST UNIT's target, plus a sentence on
      how you decided.
 
      Then, for every miss: which of the four places it happened — a tool, the
@@ -308,7 +308,7 @@ full. -->
        [ ] Sample Run: one full query plus the three per-tool tests, as text
        [ ] At least four new commits
        [ ] Repository URL submitted — WRITE IT DOWN, you submit the same one
-           next week
+           next unit
 
      SUBMISSION CHECKLIST — unit 4
 
@@ -323,7 +323,7 @@ full. -->
        [ ] One improvement, with Run Log — After in the same format
        [ ] What's Still Broken
        [ ] At least four new commits
-       [ ] The SAME repository URL as last week
+       [ ] The SAME repository URL as last unit
 
      Do not delete and recreate this repository. Your commit history is what
      shows your criteria existed before your results did.

@@ -6,7 +6,7 @@ which tool to run next based on what the last one returned.
 
 If your loop calls all three tools no matter what comes back, you have a list
 of function calls. A loop looks at the last result before it picks the next
-step. **That branch is the graded part of this week.**
+step. **That branch is the graded part of this unit.**
 
 Build and test your three tools in `tools.py` first. Then come here.
 

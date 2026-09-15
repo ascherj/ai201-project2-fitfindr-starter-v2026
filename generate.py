@@ -4,7 +4,7 @@ The one place FitFindr talks to the model.
 Two of your three tools call out to a service. Everything that does goes
 through `generate()` below.
 
-That matters more this week than it did in unit 1, because an agent run is
+That matters more in unit 3 than it did in unit 1, because an agent run is
 several requests rather than one. A student iterating on a loop will cross the
 per-minute limit within a few minutes. Rather than three hundred people each
 writing their own pacing code, the pacing lives here, once.

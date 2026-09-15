@@ -27,7 +27,7 @@ Uncomment the block below and fill it in. Three things matter:
      MCP server on the registry is.
 
      Two things to get right: name units and types ("price" is ambiguous,
-     "max_price, in whole dollars" isn't), and state the empty case. Last week
+     "max_price, in whole dollars" isn't), and state the empty case. Last unit
      the empty case was on your spec sheet for your loop's benefit. Here it's
      part of a published contract.
 

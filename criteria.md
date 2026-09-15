@@ -12,7 +12,7 @@ Under each one, write a sentence or two on **why that target** and not a
 stricter one. A reason that says something about your tools, your loop, or the
 data earns credit; *"80% seemed reasonable"* does not.
 
-> Missing your own targets next week costs you nothing. Setting a target so
+> Missing your own targets next unit costs you nothing. Setting a target so
 > easy you can't miss it does.
 
 **Two are written for you. You write three.**

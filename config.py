@@ -54,7 +54,7 @@ CACHE_ENABLED = os.getenv("AI201_CACHE", "1") != "0"
 
 # The most common architectural failure in production agents is a missing stop
 # condition — the loop runs forever, burning quota with nothing to show for it.
-# Your loop this week is short enough that you may never hit this. Keep it
+# Your loop this unit is short enough that you may never hit this. Keep it
 # anyway; it's the habit that matters.
 MAX_ITERATIONS = 10
 
